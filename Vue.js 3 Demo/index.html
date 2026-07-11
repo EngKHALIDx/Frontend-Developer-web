@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مونو فيرس | Vue.js 3 Demo - بدون تثبيت</title>
+
+  <!-- Vue.js 3 من CDN - بدون تثبيت -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .header h1 {
+      background: linear-gradient(135deg, #10b981, #14b8a6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2.5rem;
+    }
+    .header p { color: #6b7280; margin-top: 0.5rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #10b981;
+    }
+    .stat-label { color: #6b7280; font-size: 0.875rem; }
+    .product-card { overflow: hidden; }
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-green { background: #d1fae5; color: #065f46; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+    .badge-yellow { background: #fef3c7; color: #92400e; }
+    .btn {
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .btn-primary { background: #10b981; color: white; }
+    .btn-primary:hover { background: #059669; }
+    .btn-outline { background: white; border: 2px solid #10b981; color: #10b981; }
+    .btn-outline:hover { background: #10b981; color: white; }
+    .filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+    .cart {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      background: #10b981;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 9999px;
+      box-shadow: 0 8px 16px rgba(16,185,129,0.4);
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 1000;
+    }
+    .empty { text-align: center; padding: 3rem; color: #9ca3af; }
+    .price { font-size: 1.5rem; font-weight: bold; color: #1f2937; }
+    .original-price { text-decoration: line-through; color: #9ca3af; font-size: 1rem; }
+    .rating { color: #fbbf24; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>🛒 مونو فيرس | متجر Vue.js 3</h1>
+        <p>مشروع Vue.js 3 يعمل بالكامل في المتصفح بدون أي تثبيت - باستخدام Composition API</p>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="grid">
+        <div class="card">
+          <div class="stat-label">إجمالي المنتجات</div>
+          <div class="stat-value">{{ products.length }}</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">المنتجات في السلة</div>
+          <div class="stat-value">{{ cartCount }}</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">إجمالي السعر</div>
+          <div class="stat-value">${{ cartTotal.toFixed(2) }}</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">متوسط التقييم</div>
+          <div class="stat-value">{{ averageRating }}</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters" style="margin-top: 2rem;">
+        <input
+          v-model="searchQuery"
+          class="search-input"
+          placeholder="🔍 ابحث عن منتج..."
+        >
+        <select v-model="selectedCategory" class="search-input" style="flex: 0 0 200px;">
+          <option value="">كل الفئات</option>
+          <option v-for="cat in categories" :key="cat" :value="cat">{{ categoryNames[cat] }}</option>
+        </select>
+        <select v-model="sortBy" class="search-input" style="flex: 0 0 200px;">
+          <option value="">ترتيب حسب</option>
+          <option value="price-low">السعر: من الأقل للأعلى</option>
+          <option value="price-high">السعر: من الأعلى للأقل</option>
+          <option value="rating">الأعلى تقييماً</option>
+        </select>
+      </div>
+
+      <!-- Products Grid -->
+      <div v-if="filteredProducts.length > 0" class="grid">
+        <div v-for="product in filteredProducts" :key="product.id" class="card product-card">
+          <img :src="product.image" :alt="product.name" class="product-image">
+
+          <div style="margin-top: 1rem;">
+            <span class="badge" :class="stockBadgeClass(product.status)">
+              {{ stockBadgeText(product.status) }}
+            </span>
+          </div>
+
+          <h3 style="margin: 0.75rem 0;">{{ product.name }}</h3>
+          <p style="color: #6b7280; font-size: 0.875rem; min-height: 40px;">
+            {{ product.description }}
+          </p>
+
+          <div class="rating" style="margin: 0.5rem 0;">
+            {{ '★'.repeat(Math.round(product.rating)) }}
+            <span style="color: #9ca3af; font-size: 0.75rem;">
+              ({{ product.reviewCount }} تقييم)
+            </span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+            <div>
+              <span class="price">${{ product.price }}</span>
+              <span v-if="product.originalPrice" class="original-price" style="margin-right: 0.5rem;">
+                ${{ product.originalPrice }}
+              </span>
+            </div>
+            <button
+              @click="addToCart(product)"
+              :disabled="product.status === 'out-of-stock'"
+              class="btn btn-primary"
+              :style="product.status === 'out-of-stock' ? 'opacity: 0.5; cursor: not-allowed;' : ''"
+            >
+              أضف للسلة
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else class="empty">
+        <h2>🔍 لا توجد منتجات</h2>
+        <p>جرب تغيير معايير البحث أو التصفية</p>
+      </div>
+
+      <!-- Cart -->
+      <div v-if="cartCount > 0" class="cart" @click="showCart = !showCart">
+        🛒 {{ cartCount }} عنصر - ${{ cartTotal.toFixed(2) }}
+      </div>
+
+      <!-- Cart Modal -->
+      <div v-if="showCart && cartCount > 0"
+           style="position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 999;"
+           @click.self="showCart = false">
+        <div style="background: white; border-radius: 1rem; padding: 2rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;">
+          <h2 style="margin-bottom: 1rem;">🛒 سلة التسوق</h2>
+          <div v-for="(item, index) in cart" :key="index"
+               style="display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid #e5e7eb;">
+            <div>
+              <strong>{{ item.name }}</strong>
+              <div style="color: #6b7280; font-size: 0.875rem;">
+                {{ item.quantity }} × ${{ item.price }}
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <strong>${{ (item.quantity * item.price).toFixed(2) }}</strong>
+              <button @click="removeFromCart(index)" style="background: #ef4444; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 0.25rem; cursor: pointer;">✕</button>
+            </div>
+          </div>
+          <div style="margin-top: 1rem; text-align: center;">
+            <h3>الإجمالي: ${{ cartTotal.toFixed(2) }}</h3>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" @click="checkout">
+              إتمام الشراء
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp, ref, computed, reactive } = Vue;
+
+    createApp({
+      setup() {
+        // ===== State (الحالة) =====
+        const products = ref([
+          {
+            id: 1,
+            name: 'سماعات لاسلكية بريميوم',
+            description: 'سماعات لاسلكية بتقنية عزل الضوضاء النشطة',
+            price: 299.99,
+            originalPrice: 399.99,
+            image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400',
+            category: 'electronics',
+            stock: 145,
+            rating: 4.8,
+            reviewCount: 1247,
+            status: 'in-stock'
+          },
+          {
+            id: 2,
+            name: 'ساعة ذكية رياضية',
+            description: 'ساعة ذكية مع تتبع اللياقة البدنية',
+            price: 249.00,
+            image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
+            category: 'electronics',
+            stock: 8,
+            rating: 4.6,
+            reviewCount: 892,
+            status: 'low-stock'
+          },
+          {
+            id: 3,
+            name: 'حقيبة ظهر عصرية',
+            description: 'حقيبة ظهر مقاومة للماء مع جيب للابتوب',
+            price: 89.50,
+            originalPrice: 119.00,
+            image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400',
+            category: 'fashion',
+            stock: 230,
+            rating: 4.9,
+            reviewCount: 2156,
+            status: 'in-stock'
+          },
+          {
+            id: 4,
+            name: 'مصباح مكتب ذكي',
+            description: 'مصباح مكتب LED قابل للتعديل مع شحن USB',
+            price: 45.99,
+            image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400',
+            category: 'home',
+            stock: 0,
+            rating: 4.4,
+            reviewCount: 423,
+            status: 'out-of-stock'
+          },
+          {
+            id: 5,
+            name: 'كتاب: إتقان Vue.js',
+            description: 'دليل شامل لتطوير تطبيقات Vue.js 3',
+            price: 34.99,
+            image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400',
+            category: 'books',
+            stock: 67,
+            rating: 4.7,
+            reviewCount: 543,
+            status: 'in-stock'
+          },
+          {
+            id: 6,
+            name: 'كرة يوغا احترافية',
+            description: 'كرة يوغا مضادة للانزلاق',
+            price: 29.99,
+            image: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=400',
+            category: 'sports',
+            stock: 92,
+            rating: 4.5,
+            reviewCount: 312,
+            status: 'in-stock'
+          },
+          {
+            id: 7,
+            name: 'كريم مرطب طبيعي',
+            description: 'كريم مرطب بمكونات طبيعية 100%',
+            price: 19.99,
+            originalPrice: 27.99,
+            image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400',
+            category: 'beauty',
+            stock: 178,
+            rating: 4.8,
+            reviewCount: 1834,
+            status: 'in-stock'
+          },
+          {
+            id: 8,
+            name: 'لوحة مفاتيح ميكانيكية',
+            description: 'لوحة مفاتيح ميكانيكية RGB',
+            price: 129.00,
+            image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400',
+            category: 'electronics',
+            stock: 54,
+            rating: 4.7,
+            reviewCount: 723,
+            status: 'in-stock'
+          }
+        ]);
+
+        const cart = ref([]);
+        const searchQuery = ref('');
+        const selectedCategory = ref('');
+        const sortBy = ref('');
+        const showCart = ref(false);
+
+        // ===== Constants =====
+        const categories = ['electronics', 'fashion', 'home', 'books', 'sports', 'beauty'];
+        const categoryNames = {
+          electronics: 'إلكترونيات',
+          fashion: 'أزياء',
+          home: 'المنزل',
+          books: 'كتب',
+          sports: 'رياضة',
+          beauty: 'تجميل'
+        };
+
+        // ===== Computed Properties (الخصائص المحسوبة) =====
+        const filteredProducts = computed(() => {
+          let result = products.value;
+
+          // تصفية حسب البحث
+          if (searchQuery.value) {
+            const query = searchQuery.value.toLowerCase();
+            result = result.filter(p =>
+              p.name.toLowerCase().includes(query) ||
+              p.description.toLowerCase().includes(query)
+            );
+          }
+
+          // تصفية حسب الفئة
+          if (selectedCategory.value) {
+            result = result.filter(p => p.category === selectedCategory.value);
+          }
+
+          // الترتيب
+          if (sortBy.value === 'price-low') {
+            result = [...result].sort((a, b) => a.price - b.price);
+          } else if (sortBy.value === 'price-high') {
+            result = [...result].sort((a, b) => b.price - a.price);
+          } else if (sortBy.value === 'rating') {
+            result = [...result].sort((a, b) => b.rating - a.rating);
+          }
+
+          return result;
+        });
+
+        const cartCount = computed(() => {
+          return cart.value.reduce((sum, item) => sum + item.quantity, 0);
+        });
+
+        const cartTotal = computed(() => {
+          return cart.value.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+        });
+
+        const averageRating = computed(() => {
+          if (products.value.length === 0) return 0;
+          const sum = products.value.reduce((sum, p) => sum + p.rating, 0);
+          return (sum / products.value.length).toFixed(1);
+        });
+
+        // ===== Methods (الدوال) =====
+        const addToCart = (product) => {
+          const existing = cart.value.find(item => item.id === product.id);
+          if (existing) {
+            existing.quantity++;
+          } else {
+            cart.value.push({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              quantity: 1
+            });
+          }
+        };
+
+        const removeFromCart = (index) => {
+          cart.value.splice(index, 1);
+        };
+
+        const checkout = () => {
+          alert(`✅ تم إتمام الطلب بنجاح!\n\nالإجمالي: $${cartTotal.value.toFixed(2)}\nعدد المنتجات: ${cartCount.value}`);
+          cart.value = [];
+          showCart.value = false;
+        };
+
+        const stockBadgeClass = (status) => {
+          return {
+            'in-stock': 'badge-green',
+            'low-stock': 'badge-yellow',
+            'out-of-stock': 'badge-red'
+          }[status];
+        };
+
+        const stockBadgeText = (status) => {
+          return {
+            'in-stock': 'متوفر',
+            'low-stock': 'مخزون منخفض',
+            'out-of-stock': 'نفد المخزون'
+          }[status];
+        };
+
+        // ===== Return (إرجاع كل ما يحتاجه القالب) =====
+        return {
+          products,
+          cart,
+          searchQuery,
+          selectedCategory,
+          sortBy,
+          showCart,
+          categories,
+          categoryNames,
+          filteredProducts,
+          cartCount,
+          cartTotal,
+          averageRating,
+          addToCart,
+          removeFromCart,
+          checkout,
+          stockBadgeClass,
+          stockBadgeText
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
