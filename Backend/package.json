@@ -1,0 +1,28 @@
+{
+  "name": "monoverse-backend",
+  "version": "1.0.0",
+  "description": "Backend REST API server for MonoVerse platform - Express.js",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "rest",
+    "backend",
+    "nodejs",
+    "monoverse"
+  ],
+  "author": "Frontend Developer",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

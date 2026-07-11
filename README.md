@@ -6,9 +6,10 @@
 ![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Express](https://img.shields.io/badge/Express-4.x-black?style=for-the-badge&logo=express)
 ![Monorepo](https://img.shields.io/badge/Architecture-Monorepo-orange?style=for-the-badge)
 
-**منصة Monorepo متكاملة تضم 4 تطبيقات مترابطة + مكتبة مكونات قابلة لإعادة الاستخدام**
+**منصة Monorepo متكاملة - Frontend (Next.js) + Backend (Express.js)**
 
 </div>
 
@@ -17,34 +18,68 @@
 ## 📸 لقطات من الموقع
 
 ### 🏠 الصفحة الرئيسية
-![الصفحة الرئيسية](public/screenshots/01-home.png)
+![الصفحة الرئيسية](Frontend%20Developer/public/screenshots/01-home.png)
 
 ### 📊 لوحة التحكم الإدارية
-![لوحة التحكم](public/screenshots/02-admin-dashboard.png)
+![لوحة التحكم](Frontend%20Developer/public/screenshots/02-admin-dashboard.png)
 
 ### 🛒 متجر المستخدم
-![متجر المستخدم](public/screenshots/03-user-store.png)
+![متجر المستخدم](Frontend%20Developer/public/screenshots/03-user-store.png)
 
 ### 🏪 بوابة البائعين
-![بوابة البائعين](public/screenshots/04-vendor-portal.png)
+![بوابة البائعين](Frontend%20Developer/public/screenshots/04-vendor-portal.png)
 
 ### 👤 بوابة العملاء
-![بوابة العملاء](public/screenshots/05-customer-portal.png)
+![بوابة العملاء](Frontend%20Developer/public/screenshots/05-customer-portal.png)
 
 ### 📚 مكتبة المكونات
-![مكتبة المكونات](public/screenshots/06-component-library.png)
+![مكتبة المكونات](Frontend%20Developer/public/screenshots/06-component-library.png)
 
 ### 🛠️ التقنيات والمهارات
-![التقنيات](public/screenshots/07-tech-stack.png)
+![التقنيات](Frontend%20Developer/public/screenshots/07-tech-stack.png)
 
 ### 🌙 الوضع الداكن
-![الوضع الداكن](public/screenshots/08-dark-mode.png)
+![الوضع الداكن](Frontend%20Developer/public/screenshots/08-dark-mode.png)
 
 ---
 
 ## 📋 نظرة عامة
 
-منصة **مونو فيرس** هي مشروع احترافي متكامل بأسلوب **Monorepo** يجمع عدة تطبيقات مترابطة في مشروع واحد، صُمم لعرض مهارات مطور الواجهات الأمامية بشكل عملي وشامل. يغطي المشروع جميع متطلبات وظيفة **Frontend Developer** بدءاً من React و TypeScript، مروراً بإدارة الحالة وتكامل REST APIs، وصولاً إلى إمكانية الوصول وتحسين الأداء.
+منصة **مونو فيرس** هي مشروع احترافي متكامل بأسلوب **Monorepo** يجمع الواجهة الأمامية (Frontend) والخادم (Backend) في مشروع واحد منظم، صُمم لعرض مهارات مطور الواجهات الأمامية بشكل عملي وشامل.
+
+## 📁 بنية المشروع
+
+```
+Frontend-Developer-web/
+│
+├── 📂 Frontend Developer/          # الواجهة الأمامية (Next.js)
+│   ├── src/
+│   │   ├── app/                    # Next.js App Router + API Routes
+│   │   ├── components/             # 50+ مكون (UI, Layout, Sections, Shared, Theme)
+│   │   ├── hooks/                  # Custom Hooks
+│   │   ├── lib/                    # المساعدات والأدوات
+│   │   └── types/                  # TypeScript Types
+│   ├── public/                     # الصور والملفات العامة
+│   ├── package.json
+│   ├── next.config.ts
+│   ├── tsconfig.json
+│   ├── tailwind.config.ts
+│   └── eslint.config.mjs
+│
+├── 📂 Backend/                     # الخادم (Express.js)
+│   ├── src/
+│   │   ├── server.js               # نقطة الدخول للخادم
+│   │   ├── routes/                 # مسارات API (6 routes)
+│   │   └── data/                   # البيانات
+│   ├── prisma/
+│   │   └── schema.prisma           # مخطط قاعدة البيانات
+│   ├── package.json
+│   └── README.md
+│
+├── 📄 README.md                    # هذا الملف
+├── 📄 package.json                 # Workspace root
+└── 📄 .gitignore
+```
 
 ## 🎯 التطبيقات المترابطة
 
@@ -62,205 +97,110 @@
 ## ✨ الميزات
 
 ### 🏗️ البنية المعمارية
-- ✅ **بنية Monorepo** مع تطبيقات مترابطة
+- ✅ **بنية Monorepo** احترافية مع فصل Frontend / Backend
+- ✅ **Express.js** خادم خلفي مستقل
+- ✅ **Next.js** مع API Routes للواجهة الأمامية
 - ✅ **Design System** موحد مع مكتبة مكونات
-- ✅ فصل واضح للمسؤوليات (API / Hooks / Components / Types)
-- ✅ كود نظيف ومنظم مع TypeScript Strict Mode
 
 ### 🎨 واجهة المستخدم
 - ✅ **تصميم متجاوب 100%** (Mobile-first approach)
 - ✅ **دعم كامل للوضع الداكن** (Dark Mode)
 - ✅ **دعم RTL** كامل للغة العربية
 - ✅ **حركات وانتقالات** سلسة باستخدام Framer Motion
-- ✅ **حالات التحميل** (Skeletons) والتعامل مع الأخطاء
 
 ### 🔌 تكامل البيانات
-- ✅ **6 REST API Routes** مبنية مع Next.js
-- ✅ **TanStack Query** لإدارة حالة الخادم (caching, retries, optimistic updates)
-- ✅ **Zustand** لإدارة حالة العميل (cart, navigation, UI state)
-- ✅ **API Client** مخصص مع timeout وإعادة المحاولة
+- ✅ **6 REST API Routes** في Next.js
+- ✅ **6 API Endpoints** في Express.js Backend
+- ✅ **TanStack Query** لإدارة حالة الخادم
+- ✅ **Zustand** لإدارة حالة العميل
 
 ### ♿ إمكانية الوصول (Accessibility)
 - ✅ **WCAG 2.1 AA** compliant
-- ✅ **Semantic HTML** (main, header, nav, section, article)
-- ✅ **ARIA labels** كاملة للعناصر التفاعلية
+- ✅ **Semantic HTML** و ARIA labels
 - ✅ **دعم لوحة المفاتيح** الكامل
 - ✅ **Screen Reader** support
 
-### ⚡ الأداء
-- ✅ **Code Splitting** و Lazy Loading
-- ✅ **Image Optimization** مع Next.js
-- ✅ **Memoization** للمكونات والقيم
-- ✅ **Persistent State** مع localStorage
-
 ## 🛠️ التقنيات المستخدمة
 
-### Core
-- **[Next.js 16](https://nextjs.org/)** - إطار العمل الأساسي (App Router)
+### Frontend (Frontend Developer/)
+- **[Next.js 16](https://nextjs.org/)** - إطار العمل (App Router)
 - **[React 19](https://react.dev/)** - مكتبة الواجهات
-- **[TypeScript 5](https://www.typescriptlang.org/)** - للأمان النوعي
-- **JavaScript (ES6+)** - ميزات حديثة
+- **[TypeScript 5](https://www.typescriptlang.org/)**
+- **[Tailwind CSS 4](https://tailwindcss.com/)** + **[shadcn/ui](https://ui.shadcn.com/)**
+- **[TanStack Query](https://tanstack.com/query)** + **[Zustand](https://github.com/pmndrs/zustand)**
+- **[Recharts](https://recharts.org/)** + **[Framer Motion](https://www.framer.com/motion/)**
 
-### Styling & UI
-- **[Tailwind CSS 4](https://tailwindcss.com/)** - إطار التصميم
-- **[shadcn/ui](https://ui.shadcn.com/)** - مكتبة المكونات (40+ مكون)
-- **[Radix UI](https://www.radix-ui.com/)** - primitives لإمكانية الوصول
-- **[Lucide Icons](https://lucide.dev/)** - الأيقونات
-- **[Framer Motion](https://www.framer.com/motion/)** - الحركات
+### Backend (Backend/)
+- **[Express.js 4](https://expressjs.com/)** - إطار الخادم
+- **[Node.js](https://nodejs.org/)** - بيئة التشغيل
+- **[Prisma ORM](https://www.prisma.io/)** - ORM لقاعدة البيانات
+- **[CORS](https://github.com/expressjs/cors)** - مشاركة المصادر
 
-### State Management
-- **[TanStack Query](https://tanstack.com/query)** - إدارة حالة الخادم
-- **[Zustand](https://github.com/pmndrs/zustand)** - إدارة حالة العميل
-- **React Context** - للحالة العامة
-
-### Data Visualization
-- **[Recharts](https://recharts.org/)** - الرسوم البيانية
-- **Area Charts, Bar Charts, Pie Charts, Radial Charts**
-
-### Development Tools
-- **[Vite](https://vitejs.dev/)** / Turbopack - أدوات البناء
-- **[ESLint](https://eslint.org/)** - فحص الكود
-- **Git** - إدارة الإصدارات
-
-## 📁 بنية المشروع
-
-```
-src/
-├── app/                    # Next.js App Router
-│   ├── api/               # REST API Routes
-│   │   ├── dashboard/     # بيانات لوحة التحكم
-│   │   ├── products/      # المنتجات
-│   │   ├── orders/        # الطلبات
-│   │   ├── users/         # المستخدمين
-│   │   ├── vendor/        # بيانات البائعين
-│   │   └── customer/      # بيانات العملاء
-│   ├── layout.tsx         # التخطيط الرئيسي
-│   ├── page.tsx           # الصفحة الرئيسية
-│   └── globals.css        # الأنماط العامة
-│
-├── components/
-│   ├── ui/                # مكتبة shadcn/ui (40+ مكون)
-│   ├── shared/            # مكونات مشتركة قابلة لإعادة الاستخدام
-│   │   ├── stat-card.tsx
-│   │   ├── product-card.tsx
-│   │   ├── filter-bar.tsx
-│   │   ├── status-badge.tsx
-│   │   └── section-heading.tsx
-│   ├── sections/          # أقسام التطبيق
-│   │   ├── hero-section.tsx
-│   │   ├── admin-dashboard.tsx
-│   │   ├── user-store.tsx
-│   │   ├── vendor-portal.tsx
-│   │   ├── customer-portal.tsx
-│   │   ├── component-library.tsx
-│   │   └── tech-stack.tsx
-│   ├── layout/            # مكونات التخطيط
-│   │   ├── navbar.tsx
-│   │   └── footer.tsx
-│   └── theme/             # مكونات الثيم
-│       ├── theme-provider.tsx
-│       ├── theme-toggle.tsx
-│       └── query-provider.tsx
-│
-├── hooks/                 # Custom Hooks
-│   ├── use-api.ts         # Hooks لاستدعاء APIs
-│   ├── use-app-store.ts   # Zustand store
-│   ├── use-toast.ts
-│   └── use-mobile.ts
-│
-├── lib/                   # المساعدات والأدوات
-│   ├── api-client.ts      # REST API client
-│   ├── constants.ts       # الثوابت والإعدادات
-│   ├── mock-data.ts       # البيانات التجريبية
-│   ├── db.ts              # Prisma client
-│   └── utils.ts           # دوال مساعدة
-│
-└── types/                 # TypeScript Types
-    └── index.ts
-```
-
-## 🚀 التثبيت
+## 🚀 التثبيت والتشغيل
 
 ### المتطلبات
 - Node.js 18+
-- npm / yarn / bun
+- npm أو yarn أو bun
 
-### الخطوات
-
+### 1️⃣ استنساخ المستودع
 ```bash
-# 1. استنساخ المستودع
 git clone https://github.com/EngKHALIDx/Frontend-Developer-web.git
-
-# 2. الدخول للمجلد
 cd Frontend-Developer-web
-
-# 3. تثبيت الحزم
-npm install
-# أو
-yarn install
-# أو
-bun install
-
-# 4. تشغيل خادم التطوير
-npm run dev
-# أو
-yarn dev
-# أو
-bun run dev
-
-# 5. افتح المتصفح على
-http://localhost:3000
 ```
 
-### بناء الإنتاج
-
+### 2️⃣ تثبيت حزم الواجهة الأمامية
 ```bash
-npm run build
-npm run start
+cd "Frontend Developer"
+npm install
+```
+
+### 3️⃣ تشغيل الواجهة الأمامية
+```bash
+# من مجلد Frontend Developer
+npm run dev
+# أو من الجذر
+cd ..
+npm run dev
+```
+الواجهة الأمامية ستعمل على: `http://localhost:3000`
+
+### 4️⃣ (اختياري) تشغيل الخادم الخلفي
+```bash
+cd Backend
+npm install
+npm run dev
+```
+الخادم الخلفي سيعمل على: `http://localhost:3001`
+
+### 5️⃣ تشغيل كلاهما معاً (من الجذر)
+```bash
+npm run dev:all
 ```
 
 ## 📊 نقاط النهاية (API Endpoints)
 
+### Next.js API Routes (Frontend)
 | Method | Endpoint | الوصف |
 |--------|----------|--------|
-| `GET` | `/api/dashboard` | إحصائيات وبيانات لوحة التحكم |
-| `GET` | `/api/products` | قائمة المنتجات (مع تصفية وبحث) |
-| `GET` | `/api/orders` | قائمة الطلبات (مع تصفية بالحالة) |
+| `GET` | `/api/dashboard` | إحصائيات لوحة التحكم |
+| `GET` | `/api/products` | قائمة المنتجات |
+| `GET` | `/api/orders` | قائمة الطلبات |
 | `GET` | `/api/users` | قائمة المستخدمين |
-| `GET` | `/api/vendor` | بيانات بوابة البائعين |
-| `GET` | `/api/customer` | بيانات بوابة العملاء |
+| `GET` | `/api/vendor` | بيانات البائعين |
+| `GET` | `/api/customer` | بيانات العملاء |
 
-### معاملات الاستعلام (Query Parameters)
+### Express.js Backend API
+| Method | Endpoint | الوصف |
+|--------|----------|--------|
+| `GET` | `/api/dashboard` | إحصائيات لوحة التحكم |
+| `GET` | `/api/products` | قائمة المنتجات (CRUD كامل) |
+| `GET` | `/api/orders` | قائمة الطلبات + تحديث الحالة |
+| `GET` | `/api/users` | قائمة المستخدمين |
+| `GET` | `/api/vendor` | بيانات البائعين |
+| `GET` | `/api/customer` | بيانات العملاء |
+| `GET` | `/health` | فحص صحة الخادم |
 
-```bash
-# تصفية المنتجات
-GET /api/products?category=electronics&search=سماعات&page=1&pageSize=20
-
-# تصفية الطلبات
-GET /api/orders?status=delivered
-```
-
-## 🎨 مكتبة المكونات
-
-المشروع يتضمن **40+ مكون** جاهز لإعادة الاستخدام:
-
-- **النماذج**: Button, Input, Select, Switch, Checkbox, RadioGroup, Slider, Textarea
-- **العرض**: Card, Badge, Avatar, Progress, Table, Tabs, Accordion
-- **التغذية الراجعة**: Toast, Tooltip, Alert, Skeleton, Dialog, Sheet
-- **التنقل**: Navbar, Breadcrumb, Pagination, Navigation Menu
-- **البيانات**: Charts (Area, Bar, Pie, Radial), DataTable
-
-## 🔐 إمكانية الوصول (Accessibility)
-
-المشروع ملتزم بمعايير **WCAG 2.1 AA**:
-
-- ✅ Semantic HTML tags
-- ✅ ARIA labels و roles
-- ✅ دعم لوحة المفاتيح الكامل
-- ✅ Focus management
-- ✅ Color contrast ratios
-- ✅ Screen reader compatibility
-- ✅ Reduced motion support
+راجع [Backend/README.md](Backend/README.md) للتفاصيل الكاملة.
 
 ## 📱 الاستجابة (Responsive)
 
@@ -286,6 +226,6 @@ GET /api/orders?status=delivered
 
 <div align="center">
 
-**صُنع بـ ❤️ باستخدام React و TypeScript و Tailwind CSS**
+**صُنع بـ ❤️ باستخدام React و TypeScript و Tailwind CSS و Express.js**
 
 </div>
